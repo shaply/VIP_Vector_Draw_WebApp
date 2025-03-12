@@ -29,6 +29,14 @@ export function activateTool(app: VectorDrawingApp, toolName: string) {
             app.currentTool = app.lineTool;
             document.body.style.cursor = 'crosshair';
             break;
+        case 'circle':
+            if (!app.circleTool) {
+                throw new Error('Circle tool not initialized');
+            }
+            app.circleTool.activate();
+            app.currentTool = app.circleTool;
+            document.body.style.cursor = 'crosshair';
+            break;
         case 'hand':
             if (!app.handTool) {
                 throw new Error('Hand tool not initialized');

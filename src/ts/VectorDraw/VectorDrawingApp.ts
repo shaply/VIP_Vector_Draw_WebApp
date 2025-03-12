@@ -8,7 +8,7 @@ class VectorDrawingApp {
     currentTool: any;
     currentToolName: string;
     selectedItem: any;
-    shapes: paper.Path[];
+    shapes: paper.Path[]; // Has all the shapes on the grid
     strokeColor: string;
     strokeWidth: number;
     pointSize: number;
@@ -22,10 +22,16 @@ class VectorDrawingApp {
     panTool: any;
     selectTool: paper.Tool | undefined;
     pointTool: paper.Tool | undefined;
+
     lineTool: paper.Tool | undefined;
     lineStart: paper.Point | null | undefined;
     currentPath: paper.Path | null | undefined;
     lastPoint: paper.Point | null | undefined;
+
+    circleTool: paper.Tool | undefined;
+    circleStart: paper.Point | null | undefined;
+    currentCircle: paper.Path | null | undefined;
+
     handTool: paper.Tool | undefined;
     isPanMode: boolean;
 

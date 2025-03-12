@@ -9,6 +9,7 @@ export function addEventListeners(app: VectorDrawingApp) {
     document.getElementById('select-tool')?.addEventListener('click', () => activateTool(app, 'select'));
     document.getElementById('point-tool')?.addEventListener('click', () => activateTool(app, 'point'));
     document.getElementById('line-tool')?.addEventListener('click', () => activateTool(app, 'line'));
+    document.getElementById('circle-tool')?.addEventListener('click', () => activateTool(app, 'circle'));
     document.getElementById('hand-tool')?.addEventListener('click', () => activateTool(app, 'hand'));
     
     const strokeColorInput = document.getElementById('stroke-color');
@@ -18,7 +19,7 @@ export function addEventListeners(app: VectorDrawingApp) {
             updateSelectedItemStyle(app);
         });
     }
-    
+
     const toggleGridBtn = document.getElementById('toggle-grid');
     if (toggleGridBtn) {
         toggleGridBtn.addEventListener('click', () => {
