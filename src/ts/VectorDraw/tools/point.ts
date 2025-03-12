@@ -1,26 +1,29 @@
-export function createPoint(position) {
-    if (this.snapEnabled) {
-        position = this.snapToGrid(position);
+import { snapToGrid } from "../util/snapToGridUtils";
+import VectorDrawingApp from "../VectorDrawingApp";
+
+export function createPoint(app: VectorDrawingApp, position: paper.Point): paper.Path.Circle {
+    if (app.snapEnabled) {
+        position = snapToGrid(app, position);
     }
     
     const point = new paper.Path.Circle({
         center: position,
-        radius: this.pointSize,
-        fillColor: this.fillColor,
-        strokeColor: this.strokeColor,
-        strokeWidth: this.strokeWidth,
+        radius: app.pointSize,
+        fillColor: app.fillColor,
+        strokeColor: app.strokeColor,
+        strokeWidth: app.strokeWidth,
         data: {
             type: 'point',
             coordinates: [position.x, position.y, 0]
         }
     });
     
-    this.shapesGroup.addChild(point);
-    this.shapes.push(point);
+    app.shapesGroup.addChild(point);
+    app.shapes.push(point);
     
-    if (this.showCoordinates) {
+    if (app.showCoordinates) {
         const coordText = new paper.PointText({
-            point: new paper.Point(position.x + this.pointSize + 2, position.y - this.pointSize),
+            point: new paper.Point(position.x + app.pointSize + 2, position.y - app.pointSize),
             content: `(${Math.round(position.x)},${Math.round(position.y)})`,
             fontSize: 10,
             fillColor: '#000000',
@@ -30,7 +33,7 @@ export function createPoint(position) {
                 isCoordinateLabel: true
             }
         });
-        this.shapesGroup.addChild(coordText);
+        app.shapesGroup.addChild(coordText);
         
         const group = new paper.Group([point, coordText]);
         group.data = {

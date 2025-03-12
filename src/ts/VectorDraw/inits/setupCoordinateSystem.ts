@@ -1,10 +1,12 @@
-export function setupCoordinateSystem() {
+import VectorDrawingApp from "../VectorDrawingApp";
+
+export function setupCoordinateSystem(app: VectorDrawingApp) {
     const view = paper.view;
     
-    this.gridGroup.removeChildren();
+    app.gridGroup.removeChildren();
     
-    if (this.showGrid) {
-        const gridSize = this.gridSize;
+    if (app.showGrid) {
+        const gridSize = app.gridSize;
         
         const startX = Math.floor(view.bounds.left / gridSize) * gridSize;
         const endX = Math.ceil(view.bounds.right / gridSize) * gridSize;
@@ -18,7 +20,7 @@ export function setupCoordinateSystem() {
             );
             line.strokeColor = '#e0e0e0';
             line.strokeWidth = 0.5;
-            this.gridGroup.addChild(line);
+            app.gridGroup.addChild(line);
         }
         
         for (let y = startY; y <= endY; y += gridSize) {
@@ -28,9 +30,9 @@ export function setupCoordinateSystem() {
             );
             line.strokeColor = '#e0e0e0';
             line.strokeWidth = 0.5;
-            this.gridGroup.addChild(line);
+            app.gridGroup.addChild(line);
         }
     }
     
-    this.gridGroup.sendToBack();
+    app.gridGroup.sendToBack();
 }

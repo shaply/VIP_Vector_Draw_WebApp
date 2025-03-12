@@ -1,8 +1,14 @@
-export function initializeTools() {
-    const that = this;
+import { createLine } from "../tools/line";
+import { createPoint } from "../tools/point";
+import { snapToGrid } from "../util/snapToGridUtils";
+import VectorDrawingApp from "../VectorDrawingApp";
+import { setupCoordinateSystem } from "./setupCoordinateSystem";
+
+export function initializeTools(app: VectorDrawingApp) {
+    const that = app;
     
-    this.selectTool = new paper.Tool();
-    this.selectTool.onMouseDown = function(event) {
+    app.selectTool = new paper.Tool();
+    app.selectTool.onMouseDown = function(event) {
         if (that.selectedItem) {
             that.selectedItem.selected = false;
             that.selectedItem = null;
@@ -21,26 +27,26 @@ export function initializeTools() {
         }
     };
     
-    this.selectTool.onMouseDrag = function(event) {
+    app.selectTool.onMouseDrag = function(event) {
         if (that.selectedItem) {
             that.selectedItem.position = that.selectedItem.position.add(event.delta);
         }
     };
     
-    this.pointTool = new paper.Tool();
-    this.pointTool.onMouseDown = function(event) {
+    app.pointTool = new paper.Tool();
+    app.pointTool.onMouseDown = function(event) {
         let position = event.point;
         if (that.snapEnabled) {
-            position = that.snapToGrid(position);
+            position = snapToGrid(that, position);
         }
-        that.createPoint(position);
+        createPoint(that, position);
     };
     
-    this.lineTool = new paper.Tool();
-    this.lineTool.onMouseDown = function(event) {
+    app.lineTool = new paper.Tool();
+    app.lineTool.onMouseDown = function(event) {
         let startPoint = event.point;
         if (that.snapEnabled) {
-            startPoint = that.snapToGrid(startPoint);
+            startPoint = snapToGrid(that, startPoint);
         }
         that.lineStart = startPoint;
         that.currentPath = new paper.Path();
@@ -49,12 +55,16 @@ export function initializeTools() {
         that.currentPath.add(that.lineStart);
     };
     
-    this.lineTool.onMouseDrag = function(event) {
+    app.lineTool.onMouseDrag = function(event) {
         let currentPoint = event.point;
         if (that.snapEnabled) {
-            currentPoint = that.snapToGrid(currentPoint);
+            currentPoint = snapToGrid(that, currentPoint);
         }
         
+        if (!that.currentPath) { // null or undefined check
+            return;
+        }
+
         if (that.currentPath.segments.length > 1) {
             that.currentPath.removeSegments(1);
         }
@@ -62,36 +72,40 @@ export function initializeTools() {
         that.currentPath.add(currentPoint);
     };
     
-    this.lineTool.onMouseUp = function(event) {
+    app.lineTool.onMouseUp = function(event) {
         let endPoint = event.point;
         if (that.snapEnabled) {
-            endPoint = that.snapToGrid(endPoint);
+            endPoint = snapToGrid(that, endPoint);
         }
         
-        that.createLine(that.lineStart, endPoint);
+        if (!that.lineStart) { // null or undefined check
+            return;
+        }
+
+        createLine(that, that.lineStart, endPoint);
         
-        that.currentPath.remove();
+        that.currentPath?.remove();
         that.currentPath = null;
     };
     
-    this.handTool = new paper.Tool();
-    this.handTool.onMouseDown = function(event) {
+    app.handTool = new paper.Tool();
+    app.handTool.onMouseDown = function(event) {
         that.lastPoint = event.point.clone();
     };
     
-    this.handTool.onMouseDrag = function(event) {
+    app.handTool.onMouseDrag = function(event) {
         if (that.lastPoint) {
             const delta = event.point.subtract(that.lastPoint);
             
             paper.view.center = paper.view.center.subtract(delta);
             
-            that.setupCoordinateSystem();
+            setupCoordinateSystem(that);
             
             that.lastPoint = event.point.clone();
         }
     };
     
-    this.handTool.onMouseUp = function() {
+    app.handTool.onMouseUp = function() {
         that.lastPoint = null;
     };
 }

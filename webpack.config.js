@@ -2,11 +2,14 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.js",  // Entry point
+  entry: "./src/index.ts",  // Entry point
   output: {
     filename: "bundle.js",   // Output file
     path: path.resolve(__dirname, "dist"), // Output folder
     clean: true, // Cleans /dist folder before each build
+  },
+  resolve: {
+    extensions: [".ts", ".js"], // Resolve these extensions
   },
   mode: "development", // Set to "production" when deploying
   devServer: {
@@ -22,11 +25,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/, // Process JS files
+        test: /\.ts$/, // Process TS files
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader", // Optional: Transpile modern JS
-        },
+        use: "ts-loader", // Use ts-loader for TypeScript
       },
       {
         test: /\.css$/, // Process CSS files
