@@ -2,6 +2,6 @@
 
 To set up, download ```npm``` and run ```npm install```.
 
-## Running
+## Running development server
 
-```npm start```
+```npm run dev```

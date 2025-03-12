@@ -52,8 +52,6 @@ class VectorDrawingApp {
         this.gridGroup = new paper.Group();
         this.shapesGroup = new paper.Group();
 
-        // ---------------------
-
         setupCoordinateSystem(this);
 
         initializeTools(this);
