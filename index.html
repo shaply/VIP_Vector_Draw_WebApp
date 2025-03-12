@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Vector Drawing App</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.17/paper-full.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <div class="toolbar">
+            <div class="tool-group">
+                <button id="select-tool" class="tool-btn">Select</button>
+                <button id="point-tool" class="tool-btn active">Point</button>
+                <button id="line-tool" class="tool-btn">Line</button>
+                <button id="hand-tool" class="tool-btn">Hand</button>
+                <div class="color-picker">
+                    <label>Color:</label>
+                    <input type="color" id="stroke-color" value="#000000">
+                </div>
+            </div>
+            <div class="tool-group">
+                <button id="toggle-grid" class="action-btn">Hide Grid</button>
+                <button id="toggle-snap" class="action-btn">Snap: OFF</button>
+            </div>
+            <div class="tool-group">
+                <button id="delete-btn" class="action-btn">Delete</button>
+                <button id="clear-btn" class="action-btn">Clear All</button>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="canvas-container">
+                <canvas id="drawing-canvas" resize></canvas>
+            </div>
+        </div>
+        
+        <div class="status-bar">
+            <div id="mouse-position">(0, 0)</div>
+            <div id="app-status">Ready</div>
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="src/js/app.js"></script>
+    <script>
+        // Add mouse position tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('drawing-canvas');
+            const mousePositionElement = document.getElementById('mouse-position');
+            
+            // Track mouse position and display coordinates
+            canvas.addEventListener('mousemove', function(event) {
+                const rect = canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                
+                // Get the Paper.js view to convert to Paper.js coordinates
+                const view = paper.view;
+                if (view) {
+                    // Convert mouse position to Paper.js coordinates
+                    const viewPosition = paper.view.viewToProject(
+                        new paper.Point(x, y)
+                    );
+                    
+                    // Display the coordinates
+                    mousePositionElement.textContent = 
+                        `(${Math.round(viewPosition.x)}, ${Math.round(viewPosition.y)})`;
+                }
+            });
+            
+            // Export functionality has been removed
+        });
+    </script>
+</body>
+</html>

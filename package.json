@@ -1,0 +1,17 @@
+{
+  "name": "vector-drawing-app",
+  "version": "1.0.0",
+  "description": "A 2D vector-based drawing web application using Paper.js",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server . -o",
+    "dev": "live-server --entry-file=index.html"
+  },
+  "dependencies": {
+    "paper": "^0.12.17"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  }
+}
