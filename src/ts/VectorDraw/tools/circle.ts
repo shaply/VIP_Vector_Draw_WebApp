@@ -1,4 +1,4 @@
-import { snapToGrid } from "../util/snapToGridUtils";
+import { applySnapping } from "../util/snapUtils";
 import VectorDrawingApp from "../VectorDrawingApp";
 
 export function setupCircleTool(app: VectorDrawingApp) {
@@ -6,9 +6,7 @@ export function setupCircleTool(app: VectorDrawingApp) {
     
     app.circleTool.onMouseDown = function(event) {
         let centerPoint = event.point;
-        if (app.snapEnabled) {
-            centerPoint = snapToGrid(app, centerPoint);
-        }
+        centerPoint = applySnapping(app, centerPoint);
         app.circleStart = centerPoint;
         app.currentCircle = new paper.Path.Circle({
             center: app.circleStart,
@@ -20,9 +18,7 @@ export function setupCircleTool(app: VectorDrawingApp) {
 
     app.circleTool.onMouseDrag = function(event) {
         let currentPoint = event.point;
-        if (app.snapEnabled) {
-            currentPoint = snapToGrid(app, currentPoint);
-        }
+        currentPoint = applySnapping(app, currentPoint);
 
         if (!app.currentCircle) { // null or undefined check
             return;
@@ -40,9 +36,7 @@ export function setupCircleTool(app: VectorDrawingApp) {
 
     app.circleTool.onMouseUp = function(event) {
         let endPoint = event.point;
-        if (app.snapEnabled) {
-            endPoint = snapToGrid(app, endPoint);
-        }
+        endPoint = applySnapping(app, endPoint);
 
         if (!app.circleStart) { // null or undefined check
             return;

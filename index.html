@@ -14,8 +14,8 @@
                 <button id="select-tool" class="tool-btn">Select</button>
                 <button id="point-tool" class="tool-btn active">Point</button>
                 <button id="line-tool" class="tool-btn">Line</button>
-                <button id="hand-tool" class="tool-btn">Hand</button>
                 <button id="circle-tool" class="tool-btn">Circle</button>
+                <button id="hand-tool" class="tool-btn">Hand</button>
                 <div class="color-picker">
                     <label>Color:</label>
                     <input type="color" id="stroke-color" value="#000000">
@@ -23,7 +23,7 @@
             </div>
             <div class="tool-group">
                 <button id="toggle-grid" class="action-btn">Hide Grid</button>
-                <button id="toggle-snap" class="action-btn">Snap: OFF</button>
+                <button id="toggle-snap" class="action-btn">Snap Options</button>
             </div>
             <div class="tool-group">
                 <button id="delete-btn" class="action-btn">Delete</button>
@@ -43,6 +43,27 @@
         </div>
     </div>
     
+    <!-- Snap Options Modal -->
+    <div id="snap-options-modal" class="modal">
+        <div class="modal-content">
+            <h2>Snap Options</h2>
+            <div class="snap-options">
+                <label>
+                    <input type="checkbox" id="snap-to-grid" />
+                    Snap to Grid
+                </label>
+                <label>
+                    <input type="checkbox" id="snap-to-point" />
+                    Snap to Point
+                </label>
+                <label>
+                    <input type="checkbox" id="snap-to-line" />
+                    Snap to Line
+                </label>
+            </div>
+        </div>
+    </div>
+
     <script src="src/ts/app.ts"></script>
     <script>
         // Add mouse position tracking

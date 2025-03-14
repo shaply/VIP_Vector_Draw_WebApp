@@ -14,9 +14,10 @@ class VectorDrawingApp {
     pointSize: number;
     gridSize: number;
     showGrid: boolean;
-    snapEnabled: boolean;
-    gridGroup: any;
-    shapesGroup: any;
+    snapToPoint: boolean;
+    snapToGrid: boolean;
+    gridGroup: paper.Group; // Contains all the grid lines
+    shapesGroup: paper.Group; // Contains all the shapes
     showCoordinates: any;
     fillColor: any;
     panTool: any;
@@ -27,6 +28,7 @@ class VectorDrawingApp {
     lineStart: paper.Point | null | undefined;
     currentPath: paper.Path | null | undefined;
     lastPoint: paper.Point | null | undefined;
+    lastTime: number | null | undefined;
 
     circleTool: paper.Tool | undefined;
     circleStart: paper.Point | null | undefined;
@@ -44,14 +46,16 @@ class VectorDrawingApp {
         
         this.strokeColor = '#000000';
         this.strokeWidth = 2; 
-        this.pointSize = 4;
+        this.fillColor = '#000000';
+        this.pointSize = 3;
 
         this.isPanMode = false;
 
         this.gridSize = 20;
         this.showGrid = true;
-        this.snapEnabled = false;
-        
+        this.snapToPoint = false;
+        this.snapToGrid = false;
+
         paper.setup('drawing-canvas');
         
 

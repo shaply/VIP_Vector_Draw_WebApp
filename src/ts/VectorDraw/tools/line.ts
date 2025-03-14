@@ -1,13 +1,11 @@
-import { snapToGrid } from "../util/snapToGridUtils";
+import { applySnapping } from "../util/snapUtils";
 import VectorDrawingApp from "../VectorDrawingApp";
 
 export function setupLineTool(app: VectorDrawingApp) {
     app.lineTool = new paper.Tool();
     app.lineTool.onMouseDown = function(event) {
         let startPoint = event.point;
-        if (app.snapEnabled) {
-            startPoint = snapToGrid(app, startPoint);
-        }
+        startPoint = applySnapping(app, startPoint);
         app.lineStart = startPoint;
         app.currentPath = new paper.Path();
         app.currentPath.strokeColor = app.strokeColor;
@@ -17,9 +15,7 @@ export function setupLineTool(app: VectorDrawingApp) {
     
     app.lineTool.onMouseDrag = function(event) {
         let currentPoint = event.point;
-        if (app.snapEnabled) {
-            currentPoint = snapToGrid(app, currentPoint);
-        }
+        currentPoint = applySnapping(app, currentPoint);
         
         if (!app.currentPath) { // null or undefined check
             return;
@@ -34,9 +30,7 @@ export function setupLineTool(app: VectorDrawingApp) {
     
     app.lineTool.onMouseUp = function(event) {
         let endPoint = event.point;
-        if (app.snapEnabled) {
-            endPoint = snapToGrid(app, endPoint);
-        }
+        endPoint = applySnapping(app, endPoint);
         
         if (!app.lineStart) { // null or undefined check
             return;

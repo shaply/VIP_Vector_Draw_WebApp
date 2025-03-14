@@ -1,16 +1,11 @@
 import { activateTool } from "../tools/activateTool";
 import { clearCanvas } from "../tools/clearCanvas";
 import { deleteSelectedItem, updateSelectedItemStyle } from "../util/modifySelectedItem";
-import { toggleSnapToGrid } from "../util/snapToGridUtils";
 import VectorDrawingApp from "../VectorDrawingApp";
 import { setupCoordinateSystem } from "./setupCoordinateSystem";
 
 export function addEventListeners(app: VectorDrawingApp) {
-    document.getElementById('select-tool')?.addEventListener('click', () => activateTool(app, 'select'));
-    document.getElementById('point-tool')?.addEventListener('click', () => activateTool(app, 'point'));
-    document.getElementById('line-tool')?.addEventListener('click', () => activateTool(app, 'line'));
-    document.getElementById('circle-tool')?.addEventListener('click', () => activateTool(app, 'circle'));
-    document.getElementById('hand-tool')?.addEventListener('click', () => activateTool(app, 'hand'));
+    handleToolEventListeners(app);
     
     const strokeColorInput = document.getElementById('stroke-color');
     if (strokeColorInput) {
@@ -29,12 +24,7 @@ export function addEventListeners(app: VectorDrawingApp) {
         });
     }
     
-    const toggleSnapBtn = document.getElementById('toggle-snap');
-    if (toggleSnapBtn) {
-        toggleSnapBtn.addEventListener('click', () => {
-            toggleSnapToGrid(app);
-        });
-    }
+    handleSnapEventListeners(app);
     
     const deleteBtn = document.getElementById('delete-btn');
     if (deleteBtn) {
@@ -49,4 +39,43 @@ export function addEventListeners(app: VectorDrawingApp) {
     window.addEventListener('resize', () => {
         setTimeout(() => setupCoordinateSystem(app), 100);
     });
+}
+
+function handleToolEventListeners(app: VectorDrawingApp) {
+    document.getElementById('select-tool')?.addEventListener('click', () => activateTool(app, 'select'));
+    document.getElementById('point-tool')?.addEventListener('click', () => activateTool(app, 'point'));
+    document.getElementById('line-tool')?.addEventListener('click', () => activateTool(app, 'line'));
+    document.getElementById('circle-tool')?.addEventListener('click', () => activateTool(app, 'circle'));
+    document.getElementById('hand-tool')?.addEventListener('click', () => activateTool(app, 'hand'));
+}
+
+function handleSnapEventListeners(app: VectorDrawingApp) {
+    const toggleSnapBtn = document.getElementById('toggle-snap');
+    if (toggleSnapBtn) {
+        const snapOptionsModal = document.getElementById('snap-options-modal');
+        toggleSnapBtn.addEventListener('click', () => {
+            if (snapOptionsModal) {
+                snapOptionsModal.style.display = 'flex';
+            }
+        })
+        window.addEventListener('click', (event) => {
+            if (snapOptionsModal && event.target === snapOptionsModal) {
+                snapOptionsModal.style.display = 'none';
+            }
+        })
+    }
+
+    const snapToGridCheckbox = document.getElementById('snap-to-grid') as HTMLInputElement;
+    if (snapToGridCheckbox) {
+        snapToGridCheckbox.addEventListener('change', () => {
+            app.snapToGrid = snapToGridCheckbox.checked;
+        });
+    }
+
+    const snapToPointCheckbox = document.getElementById('snap-to-point') as HTMLInputElement;
+    if (snapToPointCheckbox) {
+        snapToPointCheckbox.addEventListener('change', () => {
+            app.snapToPoint = snapToPointCheckbox.checked;
+        });
+    }
 }

@@ -1,21 +1,17 @@
-import { snapToGrid } from "../util/snapToGridUtils";
+import { applySnapping } from "../util/snapUtils";
 import VectorDrawingApp from "../VectorDrawingApp";
 
 export function setupPointTool(app: VectorDrawingApp) {
     app.pointTool = new paper.Tool();
     app.pointTool.onMouseDown = function(event) {
         let position = event.point;
-        if (app.snapEnabled) {
-            position = snapToGrid(app, position);
-        }
+        position = applySnapping(app, position);
         createPoint(app, position);
     };
 }
 
 export function createPoint(app: VectorDrawingApp, position: paper.Point): paper.Path.Circle {
-    if (app.snapEnabled) {
-        position = snapToGrid(app, position);
-    }
+    position = applySnapping(app, position);
     
     const point = new paper.Path.Circle({
         center: position,

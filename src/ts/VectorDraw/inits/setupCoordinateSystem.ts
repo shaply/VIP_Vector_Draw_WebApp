@@ -1,8 +1,12 @@
 import VectorDrawingApp from "../VectorDrawingApp";
 
+/**
+ * Can be optimized so that it doesn't delete the gridlines and redraw them everytime.
+ * @param app 
+ */
 export function setupCoordinateSystem(app: VectorDrawingApp) {
     const view = paper.view;
-    
+
     app.gridGroup.removeChildren();
     
     if (app.showGrid) {
