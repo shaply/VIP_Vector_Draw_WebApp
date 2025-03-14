@@ -19,7 +19,7 @@ export function setupSelectTool(app: VectorDrawingApp) {
             tolerance: 5
         });
         
-        if (hitResult) {
+        if (hitResult && app.gridGroup.children.indexOf(hitResult.item) === -1) {
             app.selectedItem = hitResult.item;
             app.selectedItem.selected = true;
         }

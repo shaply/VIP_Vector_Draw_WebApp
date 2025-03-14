@@ -4,7 +4,6 @@ import { setupLineTool } from "../tools/line";
 import { setupPointTool } from "../tools/point";
 import { setupSelectTool } from "../tools/select";
 import VectorDrawingApp from "../VectorDrawingApp";
-import { setupCoordinateSystem } from "./setupCoordinateSystem";
 
 export function initializeTools(app: VectorDrawingApp) {
     

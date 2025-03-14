@@ -1,6 +1,5 @@
 import { snapToGrid } from "../util/snapToGridUtils";
 import VectorDrawingApp from "../VectorDrawingApp";
-import { activateTool } from "./activateTool";
 
 export function setupLineTool(app: VectorDrawingApp) {
     app.lineTool = new paper.Tool();
