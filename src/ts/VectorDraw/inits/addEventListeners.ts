@@ -68,14 +68,21 @@ function handleSnapEventListeners(app: VectorDrawingApp) {
     const snapToGridCheckbox = document.getElementById('snap-to-grid') as HTMLInputElement;
     if (snapToGridCheckbox) {
         snapToGridCheckbox.addEventListener('change', () => {
-            app.snapToGrid = snapToGridCheckbox.checked;
+            app.snapOptions.snapToGrid = snapToGridCheckbox.checked;
         });
     }
 
     const snapToPointCheckbox = document.getElementById('snap-to-point') as HTMLInputElement;
     if (snapToPointCheckbox) {
         snapToPointCheckbox.addEventListener('change', () => {
-            app.snapToPoint = snapToPointCheckbox.checked;
+            app.snapOptions.snapToPoint = snapToPointCheckbox.checked;
+        });
+    }
+
+    const snapToLineCheckbox = document.getElementById('snap-to-line') as HTMLInputElement;
+    if (snapToLineCheckbox) {
+        snapToLineCheckbox.addEventListener('change', () => {
+            app.snapOptions.snapToLine = snapToLineCheckbox.checked;
         });
     }
 }

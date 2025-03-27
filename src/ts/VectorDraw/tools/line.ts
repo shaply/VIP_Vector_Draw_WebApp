@@ -1,3 +1,4 @@
+import { Line } from "../types/shapes";
 import { applySnapping } from "../util/snapUtils";
 import VectorDrawingApp from "../VectorDrawingApp";
 
@@ -44,14 +45,18 @@ export function setupLineTool(app: VectorDrawingApp) {
 }
 
 export function createLine(app: VectorDrawingApp, startPoint: paper.Point, endPoint: paper.Point): paper.Path.Line {
+    const lineData: Line = {
+        type: 'line',
+        startPoint: startPoint,
+        endPoint: endPoint
+    }
+    
     const line = new paper.Path.Line({
         from: startPoint,
         to: endPoint,
         strokeColor: app.strokeColor,
         strokeWidth: app.strokeWidth,
-        data: {
-            type: 'line'
-        }
+        data: lineData,
     });
     
     app.shapesGroup.addChild(line);

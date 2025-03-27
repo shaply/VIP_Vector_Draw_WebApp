@@ -3,6 +3,7 @@ import { addEventListeners } from './inits/addEventListeners';
 import { initializeTools } from './inits/initializeTools';
 import { activateTool } from './tools/activateTool';
 import { setupKeyboardShortcuts } from './inits/setupKeyboardShortcuts';
+import { SnapOptions } from './util/snapUtils';
 
 class VectorDrawingApp {
     currentTool: any;
@@ -14,8 +15,9 @@ class VectorDrawingApp {
     pointSize: number;
     gridSize: number;
     showGrid: boolean;
-    snapToPoint: boolean;
-    snapToGrid: boolean;
+
+    snapOptions: SnapOptions;
+
     gridGroup: paper.Group; // Contains all the grid lines
     shapesGroup: paper.Group; // Contains all the shapes
     showCoordinates: any;
@@ -53,8 +55,12 @@ class VectorDrawingApp {
 
         this.gridSize = 20;
         this.showGrid = true;
-        this.snapToPoint = false;
-        this.snapToGrid = false;
+        
+        this.snapOptions = {
+            snapToGrid: false,
+            snapToPoint: false,
+            snapToLine: false
+        }
 
         paper.setup('drawing-canvas');
         
@@ -71,6 +77,8 @@ class VectorDrawingApp {
         addEventListeners(this);
         
         activateTool(this, 'point');
+
+        console.log('App initialized');
     }
     
     updatePropertiesPanel() {

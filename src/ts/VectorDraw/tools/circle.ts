@@ -1,3 +1,4 @@
+import { Circle } from "../types/shapes";
 import { applySnapping } from "../util/snapUtils";
 import VectorDrawingApp from "../VectorDrawingApp";
 
@@ -51,14 +52,18 @@ export function setupCircleTool(app: VectorDrawingApp) {
 
 export function createCircle(app: VectorDrawingApp, centerPoint: paper.Point, endPoint: paper.Point): paper.Path.Circle {
     const radius = centerPoint.getDistance(endPoint);
+
+    const circleData: Circle = {
+        center: centerPoint,
+        radius: radius,
+        type: 'circle',
+    }
     const circle = new paper.Path.Circle({
         center: centerPoint,
         radius: radius,
         strokeColor: app.strokeColor,
         strokeWidth: app.strokeWidth,
-        data: {
-            type: 'circle'
-        }
+        data: circleData
     });
 
     app.shapesGroup.addChild(circle);
