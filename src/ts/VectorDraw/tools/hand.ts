@@ -1,5 +1,15 @@
 import { setupCoordinateSystem } from "../inits/setupCoordinateSystem";
+import { CustomTool } from "../types/tool";
 import VectorDrawingApp from "../VectorDrawingApp";
+
+export class HandTool extends CustomTool {
+    lastPoint: paper.Point | null | undefined;
+    lastTime: number | null | undefined;
+
+    deactivate() {
+        // Logic to deactivate the tool
+    }
+}
 
 /**
  * Sets up functionality for dragging the canvas around. Currently uses a velocity threshold
@@ -8,27 +18,28 @@ import VectorDrawingApp from "../VectorDrawingApp";
  */
 export function setupHandTool(app: VectorDrawingApp) {
     const velocityThreshold = 0.25;
+    const handTool = new HandTool();
+    app.handTool = handTool;
 
-    app.handTool = new paper.Tool();
-    app.handTool.onMouseDown = function(event) {
-        app.lastPoint = event.point.clone();
-        app.lastTime = Date.now();
+    handTool.onMouseDown = function(event) {
+        handTool.lastPoint = event.point.clone();
+        handTool.lastTime = Date.now();
     };
     
-    app.handTool.onMouseDrag = function(event) {
-        if (app.lastPoint) {
-            const delta = event.point.subtract(app.lastPoint);
+    handTool.onMouseDrag = function(event) {
+        if (handTool.lastPoint) {
+            const delta = event.point.subtract(handTool.lastPoint);
             const currentTime = Date.now();
             let timeDelta: number;
-            if (!app.lastTime) {
+            if (!handTool.lastTime) {
                 timeDelta = 0;
             } else {
-                timeDelta = currentTime - app.lastTime;
+                timeDelta = currentTime - handTool.lastTime;
             }
             const velocity = delta.length / timeDelta;
-            app.lastTime = currentTime;
+            handTool.lastTime = currentTime;
             if (velocity < velocityThreshold) {
-                app.lastPoint = event.point.clone();
+                handTool.lastPoint = event.point.clone();
                 return;
             }
             
@@ -36,11 +47,11 @@ export function setupHandTool(app: VectorDrawingApp) {
             
             setupCoordinateSystem(app);
             
-            app.lastPoint = event.point.clone();
+            handTool.lastPoint = event.point.clone();
         }
     };
     
-    app.handTool.onMouseUp = function() {
-        app.lastPoint = null;
+    handTool.onMouseUp = function() {
+        handTool.lastPoint = null;
     };
 }

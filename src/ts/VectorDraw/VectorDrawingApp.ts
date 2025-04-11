@@ -4,11 +4,16 @@ import { initializeTools } from './inits/initializeTools';
 import { activateTool } from './tools/activateTool';
 import { setupKeyboardShortcuts } from './inits/setupKeyboardShortcuts';
 import { SnapOptions } from './util/snapUtils';
+import { CustomTool } from './types/tool';
+import { SelectTool } from './tools/select';
+import { PointTool } from './tools/point';
+import { LineTool } from './tools/line';
+import { CircleTool } from './tools/circle';
+import { HandTool } from './tools/hand';
 
 class VectorDrawingApp {
-    currentTool: any;
+    currentTool: CustomTool | null;
     currentToolName: string;
-    selectedItem: any;
     shapes: paper.Path[]; // Has all the shapes on the grid
     strokeColor: string;
     strokeWidth: number;
@@ -23,27 +28,19 @@ class VectorDrawingApp {
     showCoordinates: any;
     fillColor: any;
     panTool: any;
-    selectTool: paper.Tool | undefined;
-    pointTool: paper.Tool | undefined;
 
-    lineTool: paper.Tool | undefined;
-    lineStart: paper.Point | null | undefined;
-    currentPath: paper.Path | null | undefined;
-    lastPoint: paper.Point | null | undefined;
-    lastTime: number | null | undefined;
+    selectTool: SelectTool;
+    pointTool: PointTool;
+    lineTool: LineTool;
+    circleTool: CircleTool;
+    handTool: HandTool;
 
-    circleTool: paper.Tool | undefined;
-    circleStart: paper.Point | null | undefined;
-    currentCircle: paper.Path | null | undefined;
-
-    handTool: paper.Tool | undefined;
     isPanMode: boolean;
 
     constructor() {
         
         this.currentTool = null;
         this.currentToolName = 'point';
-        this.selectedItem = null;
         this.shapes = [];
         
         this.strokeColor = '#000000';
@@ -70,6 +67,11 @@ class VectorDrawingApp {
 
         setupCoordinateSystem(this);
 
+        this.selectTool = new SelectTool();
+        this.pointTool = new PointTool();
+        this.lineTool = new LineTool();
+        this.circleTool = new CircleTool();
+        this.handTool = new HandTool();
         initializeTools(this);
         
         setupKeyboardShortcuts(this);

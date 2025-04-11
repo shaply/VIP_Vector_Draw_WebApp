@@ -1,6 +1,5 @@
 import { activateTool } from "../tools/activateTool";
 import { clearCanvas } from "../tools/clearCanvas";
-import { deleteSelectedItem, updateSelectedItemStyle } from "../util/modifySelectedItem";
 import VectorDrawingApp from "../VectorDrawingApp";
 import { setupCoordinateSystem } from "./setupCoordinateSystem";
 
@@ -11,7 +10,7 @@ export function addEventListeners(app: VectorDrawingApp) {
     if (strokeColorInput) {
         strokeColorInput.addEventListener('input', () => {
             app.strokeColor = (strokeColorInput as HTMLInputElement).value;
-            updateSelectedItemStyle(app);
+            app.selectTool.updateSelectedItemStyle(app);
         });
     }
 
@@ -28,7 +27,7 @@ export function addEventListeners(app: VectorDrawingApp) {
     
     const deleteBtn = document.getElementById('delete-btn');
     if (deleteBtn) {
-        deleteBtn.addEventListener('click', () => deleteSelectedItem(app));
+        deleteBtn.addEventListener('click', () => app.selectTool.deleteSelectedItem(app));
     }
     
     const clearBtn = document.getElementById('clear-btn');

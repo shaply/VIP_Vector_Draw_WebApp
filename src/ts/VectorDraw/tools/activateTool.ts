@@ -3,6 +3,13 @@ import { updateToolUI } from "../util/updateToolUI";
 
 export function activateTool(app: VectorDrawingApp, toolName: string) {
     app.currentToolName = toolName;
+
+    // Deactivate the current tool if it exists
+    if (app.currentTool) {
+        app.currentTool.deactivate();
+        app.currentTool = null;
+        document.body.style.cursor = 'default';
+    }
     
     switch (toolName) {
         case 'select':
